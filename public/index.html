@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NBIB — Case Desk</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Source+Sans+3:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <header class = "hero">
+        <p class = "eyebrow">Field Office . open 24/7</p>
+        <h1>National Breakup Investigation Bureau</h1>
+        <p class="tagline">File complaints. Track cases. Demand compensation.</p>
+        <div class="hero-actions">
+        <button type="button" id="refreshBtn">Refresh cases</button>
+        <a class="button-link" href="#file">File a complaint</a>
+      </div>
+    </header>
+
+    <main>
+      <section id="file" class="panel">
+        <h2>File a complaint</h2>
+        <form id="caseForm">
+          <label>
+            Partner
+            <input name="partner" required placeholder="Who did this?" />
+          </label>
+          <label>
+            Crime
+            <input name="crime" required placeholder="What happened?" />
+          </label>
+          <label>
+            Damage level
+            <select name="damageLevel">
+              <option value="mild">mild</option>
+              <option value="moderate" selected>moderate</option>
+              <option value="severe">severe</option>
+              <option value="catastrophic">catastrophic</option>
+            </select>
+          </label>
+          <label>
+            Compensation
+            <input name="compensation" placeholder="What do you demand?" />
+          </label>
+          <button type="submit">Submit case</button>
+        </form>
+        <p id="formMessage" class="message" hidden></p>
+      </section>
+
+      <section class="panel">
+        <h2>Open cases</h2>
+        <p id="listMessage" class="message" hidden></p>
+        <div id="casesList" class="cases"></div>
+      </section>
+    </main>
+    
+    <script src="/app.js"></script>
+
+  </body>
+</html>

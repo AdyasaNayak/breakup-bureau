@@ -1,7 +1,7 @@
-# Dependencies — never commit these; anyone can reinstall with npm install
+# Dependencies 
 node_modules/
 
-# Environment secrets — API keys, DB passwords (we'll use .env later)
+# Environment secrets
 .env
 .env.*
 !.env.example
