@@ -13,54 +13,136 @@
     <link rel="stylesheet" href="/style.css" />
   </head>
   <body>
-    <header class = "hero">
-        <p class = "eyebrow">Field Office . open 24/7</p>
-        <h1>National Breakup Investigation Bureau</h1>
-        <p class="tagline">File complaints. Track cases. Demand compensation.</p>
-        <div class="hero-actions">
-        <button type="button" id="refreshBtn">Refresh cases</button>
-        <a class="button-link" href="#file">File a complaint</a>
+    <header class="topbar">
+      <div class="topbar-inner">
+        <a class="brand" href="#top">
+          <svg class="seal" viewBox="0 0 40 40" aria-hidden="true">
+            <circle cx="20" cy="20" r="18.5" fill="none" stroke="currentColor" stroke-width="2" />
+            <circle cx="20" cy="20" r="14" fill="none" stroke="currentColor" stroke-width="1" />
+            <path d="M20 9l2.6 6.4 6.9.5-5.3 4.4 1.7 6.7-5.9-3.7-5.9 3.7 1.7-6.7-5.3-4.4 6.9-.5z" fill="currentColor" />
+          </svg>
+          <span>NBIB</span>
+        </a>
+        <p class="topbar-note">Field office · open 24/7</p>
       </div>
     </header>
 
+    <section class="hero" id="top">
+      <p class="eyebrow">National Breakup Investigation Bureau</p>
+      <h1>Every heartbreak<br />gets a case number.</h1>
+      <p class="tagline">
+        File complaints against the guilty. Track the investigation. Demand the
+        compensation you deserve — the bureau does the rest.
+      </p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="#file">File a complaint</a>
+        <button type="button" id="refreshBtn" class="btn btn-ghost">
+          <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 3a7 7 0 0 1 6.7 5h-2.2A4.8 4.8 0 0 0 10 5.2 4.8 4.8 0 0 0 5.2 10 4.8 4.8 0 0 0 10 14.8c1.6 0 3-.8 3.9-2h-2.4v-2H17v6h-2v-2.2A6.9 6.9 0 0 1 10 17a7 7 0 0 1 0-14z" fill="currentColor"/></svg>
+          Refresh cases
+        </button>
+      </div>
+      <dl class="stats" aria-label="Case statistics">
+        <div class="stat">
+          <dt>On file</dt>
+          <dd id="statTotal">–</dd>
+        </div>
+        <div class="stat">
+          <dt>Under investigation</dt>
+          <dd id="statOpen">–</dd>
+        </div>
+        <div class="stat">
+          <dt>Solved</dt>
+          <dd id="statSolved">–</dd>
+        </div>
+        <div class="stat">
+          <dt>Dismissed</dt>
+          <dd id="statDismissed">–</dd>
+        </div>
+      </dl>
+    </section>
+
     <main>
       <section id="file" class="panel">
-        <h2>File a complaint</h2>
+        <div class="panel-head">
+          <h2>File a complaint</h2>
+          <p class="panel-sub">All fields are confidential. Mostly.</p>
+        </div>
         <form id="caseForm">
-          <label>
-            Partner
-            <input name="partner" required placeholder="Who did this?" />
-          </label>
-          <label>
-            Crime
-            <input name="crime" required placeholder="What happened?" />
-          </label>
-          <label>
-            Damage level
-            <select name="damageLevel">
-              <option value="mild">mild</option>
-              <option value="moderate" selected>moderate</option>
-              <option value="severe">severe</option>
-              <option value="catastrophic">catastrophic</option>
-            </select>
-          </label>
-          <label>
-            Compensation
-            <input name="compensation" placeholder="What do you demand?" />
-          </label>
-          <button type="submit">Submit case</button>
+          <div class="form-grid">
+            <label class="field">
+              <span class="field-label">Partner</span>
+              <input name="partner" required placeholder="Who did this?" />
+            </label>
+            <label class="field">
+              <span class="field-label">Compensation demanded</span>
+              <input name="compensation" placeholder="What do you demand?" />
+            </label>
+            <label class="field field-wide">
+              <span class="field-label">Crime</span>
+              <input name="crime" required placeholder="Describe the offence…" />
+            </label>
+          </div>
+          <fieldset class="chip-group">
+            <legend>Damage level</legend>
+            <label class="chip-radio">
+              <input type="radio" name="damageLevel" value="mild" />
+              <span class="chip-face is-mild">Mild</span>
+            </label>
+            <label class="chip-radio">
+              <input type="radio" name="damageLevel" value="moderate" checked />
+              <span class="chip-face is-moderate">Moderate</span>
+            </label>
+            <label class="chip-radio">
+              <input type="radio" name="damageLevel" value="severe" />
+              <span class="chip-face is-severe">Severe</span>
+            </label>
+            <label class="chip-radio">
+              <input type="radio" name="damageLevel" value="catastrophic" />
+              <span class="chip-face is-catastrophic">Catastrophic</span>
+            </label>
+          </fieldset>
+          <button type="submit" id="submitBtn" class="btn btn-primary btn-lg">Stamp &amp; file case</button>
         </form>
-        <p id="formMessage" class="message" hidden></p>
+        <p id="formMessage" class="message" role="status" hidden></p>
       </section>
 
       <section class="panel">
-        <h2>Open cases</h2>
-        <p id="listMessage" class="message" hidden></p>
+        <div class="panel-head">
+          <h2>Case files</h2>
+          <p class="panel-sub">Every complaint, stamped and on record.</p>
+        </div>
+        <div class="toolbar">
+          <div class="chip-row" id="filterChips" role="group" aria-label="Filter cases by status">
+            <button type="button" class="chip is-active" data-filter="all" aria-pressed="true">
+              All <span class="chip-count" data-count="all">0</span>
+            </button>
+            <button type="button" class="chip" data-filter="under investigation" aria-pressed="false">
+              Open <span class="chip-count" data-count="open">0</span>
+            </button>
+            <button type="button" class="chip" data-filter="solved" aria-pressed="false">
+              Solved <span class="chip-count" data-count="solved">0</span>
+            </button>
+            <button type="button" class="chip" data-filter="dismissed" aria-pressed="false">
+              Dismissed <span class="chip-count" data-count="dismissed">0</span>
+            </button>
+          </div>
+          <input
+            id="searchInput"
+            class="search"
+            type="search"
+            placeholder="Search partner, crime, compensation…"
+            aria-label="Search cases"
+          />
+        </div>
+        <p id="listMessage" class="message" role="status" hidden></p>
         <div id="casesList" class="cases"></div>
       </section>
     </main>
-    
-    <script src="/app.js"></script>
 
+    <footer class="footer">
+      <p>NBIB · National Breakup Investigation Bureau — consequences served since forever.</p>
+    </footer>
+
+    <script src="/app.js"></script>
   </body>
 </html>
